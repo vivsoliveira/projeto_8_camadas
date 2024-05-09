@@ -11,7 +11,7 @@ def main():
     audio = audio[:, 0]  
     audio /= np.max(np.abs(audio))
     duration = len(audio) / sample_rate
-    time = np.linspace(0., duration, len(audio))
+    time = np.linspace(0, duration, len(audio))
     eu = signalMeu()
 
     def low_pass_filter(audio, cutoff_hz, sample_rate):
@@ -42,8 +42,6 @@ def main():
     # Normalize modulated audio
     modulated_audio /= np.max(np.abs(modulated_audio))
 
-
-
     def am_demodulate(modulated_signal, carrier_freq, sample_rate):
         t = np.arange(len(modulated_signal)) / sample_rate
         carrier = np.cos(2 * np.pi * carrier_freq * t)
@@ -55,11 +53,13 @@ def main():
     # Normalize demodulated audio
     demodulated_audio /= np.max(np.abs(demodulated_audio))
 
+    demod_fil = low_pass_filter(demodulated_audio, cutoff_frequency, sample_rate)
+
     # Plot all graphs in one figure
     plt.figure(figsize=(12, 10))
 
     # Original Audio
-    plt.subplot(3, 2, 1)
+    plt.subplot(2, 1, 1)
     plt.plot(time, audio)
     plt.title('Original Audio')
     plt.xlabel('Time [s]')
@@ -67,23 +67,23 @@ def main():
     plt.grid(True)
 
     # Filtered Audio
-    plt.subplot(3, 2, 2)
+    plt.subplot(2, 1, 2)
     plt.plot(time, filtered_audio)
     plt.title('Filtered Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
+    plt.show()
 
     # Filtered Audio FFT
-    plt.subplot(3, 2, 3)
     eu.plotFFT(filtered_audio, 44100)
     plt.title('Filtered Audio FFT')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Amplitude')
     plt.grid(True)
+    plt.show()
 
     # Modulated Audio
-    plt.subplot(3, 2, 4)
     plt.plot(time, modulated_audio)
     plt.title('AM Modulated Audio')
     plt.xlabel('Time [s]')
@@ -91,23 +91,37 @@ def main():
     plt.grid(True)
 
     # Modulated Audio FFT
-    plt.subplot(3, 2, 5)
     eu.plotFFT(modulated_audio, 44100)
     plt.title('AM Modulated Audio FFT')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Amplitude')
     plt.grid(True)
+    plt.show()
 
     # Demodulated Audio
-    plt.subplot(3, 2, 6)
     plt.plot(time, demodulated_audio)
     plt.title('AM Demodulated Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
-
-    plt.tight_layout()
     plt.show()
+
+    # Demodulated Audio FFT
+    eu.plotFFT(demodulated_audio, 44100)
+    plt.title('AM Demodulated Audio FFT')
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
+    plt.grid(True)
+    plt.show()
+
+    # Demolutado e filtrado
+    eu.plotFFT(demod_fil, 44100)
+    plt.title('Demodulado filtrado')
+    plt.xlabel('Frequencia [Hz]')
+    plt.ylabel('Amplitude')
+    plt.grid(True)
+    plt.show()
+
 
 
 if __name__ == "__main__":
