@@ -55,68 +55,58 @@ def main():
     # Normalize demodulated audio
     demodulated_audio /= np.max(np.abs(demodulated_audio))
 
-    # Plot original audio
+    # Plot all graphs in one figure
+    plt.figure(figsize=(12, 10))
+
+    # Original Audio
+    plt.subplot(3, 2, 1)
     plt.plot(time, audio)
     plt.title('Original Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
-    # Plot filtered audio
+    # Filtered Audio
+    plt.subplot(3, 2, 2)
     plt.plot(time, filtered_audio)
     plt.title('Filtered Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
-
+    # Filtered Audio FFT
+    plt.subplot(3, 2, 3)
     eu.plotFFT(filtered_audio, 44100)
-    # plt.title('Filtered Audio')
-    # plt.xlabel('Frequencia [Hz]')
-    # plt.ylabel('Amplitude')
+    plt.title('Filtered Audio FFT')
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
-    #Plot modulated audio
+    # Modulated Audio
+    plt.subplot(3, 2, 4)
     plt.plot(time, modulated_audio)
     plt.title('AM Modulated Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
+    # Modulated Audio FFT
+    plt.subplot(3, 2, 5)
     eu.plotFFT(modulated_audio, 44100)
-    # plt.title('AM Modulated Audio')
-    # plt.xlabel('Frequencia [Hz]')
-    # plt.ylabel('Amplitude')
+    plt.title('AM Modulated Audio FFT')
+    plt.xlabel('Frequency [Hz]')
+    plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
-    # Plot demodulated audio
+    # Demodulated Audio
+    plt.subplot(3, 2, 6)
     plt.plot(time, demodulated_audio)
     plt.title('AM Demodulated Audio')
     plt.xlabel('Time [s]')
     plt.ylabel('Amplitude')
     plt.grid(True)
-    plt.show()
 
-    eu.plotFFT(demodulated_audio, 44100)
-    # plt.title('AM Modulated Audio')
-    # plt.xlabel('Frequencia [Hz]')
-    # plt.ylabel('Amplitude')
-    plt.grid(True)
-    plt.show()
-
-    # grafico demodulado e filtrado
-    eu.plotFFT(demodulated_audio, 44100)
-    eu.plotFFT(filtered_audio, 44100)
-    plt.title('Demodulado e Filtrado')
-    plt.xlabel('Frequencia [Hz]')
-    plt.ylabel('Amplitude')
-    plt.legend(['Demodulado', 'Filtrado'])
-    plt.grid(True)
+    plt.tight_layout()
     plt.show()
 
 
