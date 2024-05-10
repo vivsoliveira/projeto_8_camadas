@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from scipy import signal
 from scipy.fft import fft, fftshift
 from suaBibSignal import signalMeu
+import sounddevice as sd
 
 def main():
     file_path = './casca_de_bala.wav' 
@@ -13,7 +14,7 @@ def main():
     duration = len(audio) / sample_rate
     time = np.linspace(0, duration, len(audio))
     eu = signalMeu()
-
+    print(sample_rate)
     def low_pass_filter(audio, cutoff_hz, sample_rate):
         nyq_rate = sample_rate / 2.
         width = 5.0 / nyq_rate  # transition width
@@ -52,6 +53,13 @@ def main():
 
     # Normalize demodulated audio
     demodulated_audio /= np.max(np.abs(demodulated_audio))
+    sd.play(audio, sample_rate)
+    sd.wait()
+    sd.play(modulated_audio, sample_rate)
+    sd.wait()
+    sd.play(demodulated_audio, sample_rate)
+    sd.wait()
+    
 
     demod_fil = low_pass_filter(demodulated_audio, cutoff_frequency, sample_rate)
 
@@ -76,7 +84,7 @@ def main():
     plt.show()
 
     # Filtered Audio FFT
-    eu.plotFFT(filtered_audio, 44100)
+    eu.plotFFT(filtered_audio, 48000)
     plt.title('Filtered Audio FFT')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Amplitude')
@@ -91,7 +99,7 @@ def main():
     plt.grid(True)
 
     # Modulated Audio FFT
-    eu.plotFFT(modulated_audio, 44100)
+    eu.plotFFT(modulated_audio, 48000)
     plt.title('AM Modulated Audio FFT')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Amplitude')
@@ -107,7 +115,7 @@ def main():
     plt.show()
 
     # Demodulated Audio FFT
-    eu.plotFFT(demodulated_audio, 44100)
+    eu.plotFFT(demodulated_audio, 48000)
     plt.title('AM Demodulated Audio FFT')
     plt.xlabel('Frequency [Hz]')
     plt.ylabel('Amplitude')
@@ -115,7 +123,7 @@ def main():
     plt.show()
 
     # Demolutado e filtrado
-    eu.plotFFT(demod_fil, 44100)
+    eu.plotFFT(demod_fil, 48000)
     plt.title('Demodulado filtrado')
     plt.xlabel('Frequencia [Hz]')
     plt.ylabel('Amplitude')
