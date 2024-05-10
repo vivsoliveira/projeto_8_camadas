@@ -6,7 +6,7 @@ from scipy.fft import fft, fftshift
 from suaBibSignal import signalMeu
 
 def main():
-    file_path = r'C:\Users\Vitoria Oliveira\Desktop\CAMADAS\projeto_8_camadas\casca_de_bala.wav' 
+    file_path = './casca_de_bala.wav' 
     audio, sample_rate = sf.read(file_path)
     audio = audio[:, 0]  
     audio /= np.max(np.abs(audio))
